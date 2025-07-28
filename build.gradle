@@ -49,9 +49,8 @@ buildscript {
   ext.jacksonVersion = '2.18.4'
   ext.jettyVersion = '12.0.21'
   // see also datahub-frontend/play.gradle
-  ext.playVersion = '2.8.22'
-  ext.playScalaVersion = '2.13'
-  ext.akkaVersion = '2.6.21' // 2.7.0+ has incompatible license
+  ext.playVersion = '3.0.0'
+  ext.playScalaVersion = '3'
   ext.log4jVersion = '2.23.1'
   ext.slf4jVersion = '1.7.36'
   ext.logbackClassic = '1.5.18'
@@ -111,13 +110,6 @@ project.ext.spec = [
 ]
 
 project.ext.externalDependency = [
-    'akkaHttp': "com.typesafe.akka:akka-http-core_$playScalaVersion:10.2.10", // max version due to licensing
-    'akkaParsing': "com.typesafe.akka:akka-parsing_$playScalaVersion:10.2.10", // akka-parsing is part of akka-http, so use akka http version
-    'akkaActor': "com.typesafe.akka:akka-actor_$playScalaVersion:$akkaVersion",
-    'akkaStream': "com.typesafe.akka:akka-stream_$playScalaVersion:$akkaVersion",
-    'akkaActorTyped': "com.typesafe.akka:akka-actor-typed_$playScalaVersion:$akkaVersion",
-    'akkaSlf4j': "com.typesafe.akka:akka-slf4j_$playScalaVersion:$akkaVersion",
-    'akkaJackson': "com.typesafe.akka:akka-serialization-jackson_$playScalaVersion:$akkaVersion",
     'antlr4Runtime': 'org.antlr:antlr4-runtime:4.9.3',
     'antlr4': 'org.antlr:antlr4:4.9.3',
     'assertJ': 'org.assertj:assertj-core:3.11.1',
@@ -239,18 +231,18 @@ project.ext.externalDependency = [
     'parquet': 'org.apache.parquet:parquet-avro:1.15.2',
     'parquetHadoop': 'org.apache.parquet:parquet-hadoop:1.13.1',
     'picocli': 'info.picocli:picocli:4.5.0',
-    'playCache': "com.typesafe.play:play-cache_$playScalaVersion:$playVersion",
-    'playCaffeineCache': "com.typesafe.play:play-caffeine-cache_$playScalaVersion:$playVersion",
-    'playWs': "com.typesafe.play:play-ahc-ws-standalone_$playScalaVersion:2.1.10",
-    'playDocs': "com.typesafe.play:play-docs_$playScalaVersion:$playVersion",
-    'playGuice': "com.typesafe.play:play-guice_$playScalaVersion:$playVersion",
-    'playJavaJdbc': "com.typesafe.play:play-java-jdbc_$playScalaVersion:$playVersion",
-    'playAkkaHttpServer': "com.typesafe.play:play-akka-http-server_$playScalaVersion:$playVersion",
-    'playServer': "com.typesafe.play:play-server_$playScalaVersion:$playVersion",
-    'playTest': "com.typesafe.play:play-test_$playScalaVersion:$playVersion",
-    'playFilters': "com.typesafe.play:filters-helpers_$playScalaVersion:$playVersion",
+    'playCache': "org.playframework:play-cache_$playScalaVersion:$playVersion",
+    'playCaffeineCache': "org.playframework:play-caffeine-cache_$playScalaVersion:$playVersion",
+    'playWs': "org.playframework:play-ahc-ws-standalone_$playScalaVersion:$playVersion",
+    'playDocs': "org.playframework:play-docs_$playScalaVersion:$playVersion",
+    'playGuice': "org.playframework:play-guice_$playScalaVersion:$playVersion",
+    'playJavaJdbc': "org.playframework:play-java-jdbc_$playScalaVersion:$playVersion",
+    'playAkkaHttpServer': "org.playframework:play-pekko-http-server_$playScalaVersion:$playVersion",
+    'playServer': "org.playframework:play-server_$playScalaVersion:$playVersion",
+    'playTest': "org.playframework:play-test_$playScalaVersion:$playVersion",
+    'playFilters': "org.playframework:play-filters-helpers_$playScalaVersion:$playVersion",
     'pac4j': 'org.pac4j:pac4j-oidc:6.1.2',
-    'playPac4j': "org.pac4j:play-pac4j_$playScalaVersion:12.0.0-PLAY2.8",
+    'playPac4j': "org.pac4j:play-pac4j_$playScalaVersion:12.0.0-PLAY3.0",
     'postgresql': 'org.postgresql:postgresql:42.7.7',
     'protobuf': 'com.google.protobuf:protobuf-java:3.25.5',
     'grpcProtobuf': 'io.grpc:grpc-protobuf:1.53.0',
@@ -396,8 +388,10 @@ configure(subprojects.findAll {! it.name.startsWith('spark-lineage')}) {
     exclude group: 'org.glassfish', module: 'javax.json'
     exclude group: 'org.glassfish', module: 'jakarta.json'
     exclude group: 'com.typesafe.play', module: 'shaded-asynchttpclient'
-    exclude group: "com.typesafe.akka", module: "akka-protobuf-v3_$playScalaVersion"
+    exclude group: "com.typesafe.akka", module: "akka-protobuf-v3_2.13"
+    exclude group: "com.typesafe.play", module: "play_2.13"
     exclude group: 'com.typesafe.play', module: 'shaded-oauth'
+    exclude group: 'io.jsonwebtoken', module: 'jjwt'
     
     // Tomcat excluded for jetty
     exclude group: 'org.apache.tomcat.embed', module: 'tomcat-embed-el'
